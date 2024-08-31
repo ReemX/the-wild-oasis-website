@@ -1,7 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
-import { supabase } from "./supabase";
-import { PostgrestError } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
+import { supabase } from "./supabase";
 
 /////////////
 // GET
@@ -53,6 +52,8 @@ export const getCabins = async function () {
     .from("cabins")
     .select("id, name, maxCapacity, regularPrice, discount, image")
     .order("name");
+
+  // await new Promise((res) => setTimeout(res, 3000));
 
   if (error) {
     console.error(error);

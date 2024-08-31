@@ -6,23 +6,26 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prod": "next build && next start"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "@supabase/supabase-js": "^2.45.2",
     "date-fns": "^3.6.0",
-    "next": "14.2.7",
-    "react": "^18",
-    "react-dom": "^18",
-    "sharp": "^0.33.5"
+    "next": "^14.2.7",
+    "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
+    "uri-js": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.7",
+    "eslint-config-next": "^14.2.7",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6",

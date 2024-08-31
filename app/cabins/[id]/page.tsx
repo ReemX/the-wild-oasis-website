@@ -1,3 +1,6 @@
+import DateSelector from "@/app/_components/DateSelector";
+import ReservationForm from "@/app/_components/ReservationForm";
+import TextExpander from "@/app/_components/TextExpander";
 import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -31,6 +34,7 @@ export default async function CabinIdPage({
           <Image
             fill
             className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             src={image}
             alt={`Cabin ${name}`}
           />
@@ -41,7 +45,9 @@ export default async function CabinIdPage({
             Cabin {name}
           </h3>
 
-          <p className="mb-10 text-lg text-primary-300">{description}</p>
+          <p className="mb-10 text-lg text-primary-300">
+            <TextExpander>{description}</TextExpander>
+          </p>
 
           <ul className="mb-7 flex flex-col gap-4">
             <li className="flex items-center gap-3">
@@ -69,9 +75,13 @@ export default async function CabinIdPage({
       </div>
 
       <div>
-        <h2 className="text-center text-5xl font-semibold">
-          Reserve today. Pay on arrival.
+        <h2 className="mb-10 text-center text-5xl font-semibold text-accent-400">
+          Reserve {name} today. Pay on arrival.
         </h2>
+        <div className="grid min-h-[400px] grid-cols-2 border border-primary-800">
+          <DateSelector />
+          <ReservationForm />
+        </div>
       </div>
     </div>
   );
