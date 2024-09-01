@@ -138,6 +138,15 @@ export async function getBookedDatesByCabinId(cabinId: string) {
   return bookedDates;
 }
 
+export interface settings {
+  id: number;
+  created_at: string;
+  minBookingLength: number;
+  maxBookingLength: number;
+  maxGuestsPerBooking: number;
+  breakfastPrice: number;
+}
+
 export async function getSettings() {
   const { data, error } = await supabase.from("settings").select("*").single();
 
@@ -146,7 +155,7 @@ export async function getSettings() {
     throw new Error("Settings could not be loaded");
   }
 
-  return data;
+  return data as settings;
 }
 
 export async function getCountries() {
