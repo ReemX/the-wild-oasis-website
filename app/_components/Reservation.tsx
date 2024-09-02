@@ -4,6 +4,7 @@ import {
   getSettings,
 } from "../_lib/data-service";
 import DateSelector from "./DateSelector";
+import { ReservationProvider } from "./ReservationContext";
 import ReservationForm from "./ReservationForm";
 
 async function Reservation({ cabin }: { cabin: cabin }) {
