@@ -9,7 +9,7 @@ async function ReservationEditPage({ params }: { params: { id: string } }) {
   const cabin = await getCabin(booking.cabinId);
   const session = await auth();
 
-  if (session?.user.guestId !== booking.guestId)
+  if (session?.user.guestId !== String(booking.guestId))
     throw new Error("No reservation with that ID was found");
 
   if (isPast(booking.startDate))
