@@ -1,9 +1,11 @@
+import AccountHeader from "../_components/AccountHeader";
+
 export const metadata = {
   title: "Guest Area",
 };
 
 function AccountPage() {
-  return <div>Account Page!</div>;
+  return <AccountHeader />;
 }
 
 export default AccountPage;

@@ -1,27 +1,41 @@
 "use client";
 
+import Image from "next/image";
 import { cabin } from "../_lib/data-service";
+import { useAuth } from "./AuthContext";
+import LoginMessage from "./LoginMessage";
 import { useReservation } from "./ReservationContext";
+import Spinner from "./Spinner";
 
 function ReservationForm({ cabin }: { cabin: cabin }) {
   const { range, setRange } = useReservation();
   const { maxCapacity } = cabin;
+  const session = useAuth();
+
+  if (!session?.user && !session.isLoading) {
+    return <LoginMessage />;
+  } else if (!!session.isLoading) {
+    return <Spinner />;
+  }
+  const { user } = session;
 
   return (
     <div className="scale-[1.01]">
       <div className="flex items-center justify-between bg-primary-800 px-16 py-2 text-primary-300">
         <p>Logged in as</p>
 
-        {/* <div className='flex gap-4 items-center'>
-          <img
-            // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
-            src={user.image}
-            alt={user.name}
+        <div className="flex items-center gap-4">
+          <Image
+            referrerPolicy="no-referrer"
+            className="h-8 w-auto rounded-full"
+            sizes="100vw"
+            src={user?.image ?? "./icon.png"}
+            alt={user?.name ?? "Profile Picture of User"}
+            width={0}
+            height={0}
           />
-          <p>{user.name}</p>
-        </div> */}
+          <p>{user?.name}</p>
+        </div>
       </div>
 
       <form className="flex flex-col gap-5 bg-primary-900 px-16 py-10 text-lg">
@@ -51,7 +65,7 @@ function ReservationForm({ cabin }: { cabin: cabin }) {
           <textarea
             name="observations"
             id="observations"
-            className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
+            className="w-full resize-none rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
             placeholder="Any pets, allergies, special requirements, etc.?"
           />
         </div>

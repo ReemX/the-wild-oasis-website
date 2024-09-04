@@ -63,7 +63,16 @@ export const getCabins = async function () {
   return data as cabin[];
 };
 
-// Guests are uniquely identified by their email address
+export interface Guest {
+  id: number;
+  created_at: string;
+  fullName: string;
+  email: string;
+  nationalID?: string;
+  nationality?: string;
+  countryFlag?: string;
+}
+
 export async function getGuest(email: string) {
   const { data, error } = await supabase
     .from("guests")
@@ -72,7 +81,24 @@ export async function getGuest(email: string) {
     .single();
 
   // No error here! We handle the possibility of no guest in the sign in callback
-  return data;
+  return data as Guest;
+}
+
+export interface booking {
+  id: string;
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  totalPrice: number;
+  guestId: string;
+  cabinId: string;
+  observations: string;
+  cabins: {
+    name: string;
+    image: string;
+  };
 }
 
 export async function getBooking(id: string) {
@@ -87,13 +113,12 @@ export async function getBooking(id: string) {
     throw new Error("Booking could not get loaded");
   }
 
-  return data;
+  return data as booking;
 }
 
 export async function getBookings(guestId: string) {
   const { data, error, count } = await supabase
     .from("bookings")
-    // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)",
     )
@@ -105,7 +130,12 @@ export async function getBookings(guestId: string) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  const bookings = data?.map((booking) => ({
+    ...booking,
+    cabins: Array.isArray(booking.cabins) ? booking.cabins[0] : booking.cabins,
+  })) as booking[];
+
+  return bookings;
 }
 
 export async function getBookedDatesByCabinId(cabinId: string) {
@@ -172,17 +202,21 @@ export async function getCountries() {
 
 // /////////////
 // // CREATE
+interface guest {
+  email: string;
+  fullName: string;
+}
 
-// export async function createGuest(newGuest) {
-//   const { data, error } = await supabase.from("guests").insert([newGuest]);
+export async function createGuest(newGuest: guest) {
+  const { data, error } = await supabase.from("guests").insert([newGuest]);
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error("Guest could not be created");
-//   }
+  if (error) {
+    console.error(error);
+    throw new Error("Guest could not be created");
+  }
 
-//   return data;
-// }
+  return data;
+}
 
 // export async function createBooking(newBooking) {
 //   const { data, error } = await supabase

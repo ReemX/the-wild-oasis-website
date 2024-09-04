@@ -1,12 +1,15 @@
 import ReservationCard from "@/app/_components/ReservationCard";
+import { getBookings } from "@/app/_lib/data-service";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Reservations",
 };
 
-export default function ReservationsPage() {
-  // CHANGE
-  const bookings: any[] = [];
+export default async function ReservationsPage() {
+  const session = await auth();
+  if (!session?.user.guestId) throw new Error("User has no guestId");
+  const bookings = await getBookings(session?.user.guestId);
 
   return (
     <div>

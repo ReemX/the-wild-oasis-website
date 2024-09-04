@@ -6,6 +6,7 @@ import "react-day-picker/dist/style.css";
 import { cabin, settings } from "../_lib/data-service";
 import { useState } from "react";
 import { useReservation } from "./ReservationContext";
+import { useAuth } from "./AuthContext";
 
 function isAlreadyBooked(range: DateRange, datesArr: Date[]): boolean {
   if (range.from && range.to) {
