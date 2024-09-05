@@ -1,4 +1,4 @@
-import ReservationCard from "@/app/_components/ReservationCard";
+import Reservationslist from "@/app/_components/ReservationsList";
 import { getBookings } from "@/app/_lib/data-service";
 import { auth } from "@/auth";
 
@@ -25,11 +25,7 @@ export default async function ReservationsPage() {
           </a>
         </p>
       ) : (
-        <ul className="space-y-6">
-          {bookings.map((booking) => (
-            <ReservationCard booking={booking} key={booking.id} />
-          ))}
-        </ul>
+        <Reservationslist bookings={bookings} />
       )}
     </div>
   );
